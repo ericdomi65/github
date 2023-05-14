@@ -1,0 +1,156 @@
+<html><head>
+<title>Vous souhaitez vous inscrire au services de Web Diffusion France</title>
+
+<style type=text/css>
+
+.cellule-extralarge{
+
+	background-color : olive;
+	font-size : 9 pt;
+	color : blue;
+	border-style : solid;
+	border-bottom-width : 88pt;
+	border-top-width : 38pt;
+	}
+
+
+
+.cellule-large-epaisseur {
+
+	background-color : olive;
+	font-size : 9 pt;
+	color : blue;
+	border-style : solid;
+	border-bottom-width : 58pt;
+	border-top-width : 38pt;
+	}
+
+
+
+
+.cellule-moyenne-epaisseur {
+
+	background-color : olive;
+	font-size : 9 pt;
+	color : blue;
+	border-style : solid;
+	border-bottom-width : 28pt;
+	border-top-width : 18pt;
+	}
+
+.cellule-mince-epaisseur {
+
+	background-color : olive;
+	font-size : 9 pt;
+	color : blue;
+	border-style : solid;
+	border-bottom-width : 8pt;
+	border-top-width : 8pt;
+	}
+
+
+</style>
+<script Language="Javascript" src="../jscripts/proj-sms-source.js"></script>
+</head>
+<body text="teal">
+<p align=center>IDENTIFICATION</P>
+
+<p>
+
+<span style="margin-left:58pt;">
+Les données nominatives sont susceptibles de modifications ou de suppression selon la loi sur l’informatique et les libertés de 1978.</span><BR>
+
+<span style="margin-left:38pt;">
+En cas de suppression, aucun remboursement ne pourra être demandé.</span><BR>
+
+<span style="margin-left:58pt">
+Ces opérations doivent être demandées en téléphonant au 09.50.111.333.</span><BR>
+
+<span style="margin-left:38pt;">
+Ou en écrivant à Web Diffusion France, Eric Abadie, 38 rue Pargaminieres, 31000 Toulouse.</span>
+</P>
+
+<span style="margin-left:58pt;">
+<marquee style="color:green;font-family:Comics,Arial;font-size:13pt" behavior="Alternate" scrolldelay="62" scrollamount="5" bgcolor="#0FFFFF" width="552">
+WebDiffusionFrance, la solution pour améliorer votre intéractivité
+</marquee>
+<span>
+<span style="margin-left:138pt;">
+
+<marquee style="color:green;font-family:Comics,Arial;font-size:13pt" behavior="Alternate" scrolldelay="92" scrollamount="5" bgcolor="#0FFFFF" width="120">
+Renseignements<BR>Téléphonez<BR>09.50.111.333.</marquee></span>
+
+<p>&nbsp;légende :*champs obligatoires </P>
+
+<form name=identification method=post action="../php/inscription.php">
+
+<table width=95% border=0 bgcolor=silver cols=4>
+
+<TR><TD width=100% align="left" cellpading=38pt colspan=5>
+
+<font color=purple>Civilité</font><font color=orange>*</font>&nbsp;&nbsp;&nbsp;
+<input type=radio name=civil value=madame> Madame&nbsp;&nbsp;&nbsp;
+<input type=radio name=civil value=monsieur> Monsieur&nbsp;&nbsp;&nbsp;
+<input type=radio name=civil value=mademois> Mademoiselle&nbsp;&nbsp;&nbsp;
+
+</TD></TR>
+
+<TR><TD class=cellule-large-epaisseur colspan=4 align="center" cellpading=38pt>
+
+Nom<font color=orange>*</font>&nbsp;&nbsp;&nbsp;<input type=text size=35 name=nom>&nbsp;&nbsp;&nbsp;&nbsp;
+Prenom<font color=orange>*</font>&nbsp;&nbsp;&nbsp;<input type=text size=35 name=prenom>&nbsp;&nbsp;&nbsp;&nbsp;
+Organisation<font color=orange>*</font>&nbsp;&nbsp;&nbsp;
+<select name=organe size=1>
+<option value=particule>particulier
+<option value=assoc>association
+<option value=pme>entreprise
+<option value=admin>administration
+</select></TD></TR>
+
+<TR><TD class=cellule-mince-epaisseur colspan=4 align=center>
+Veuillez entrer vos coordonnées<font color=orange>*</font>:</TD></TR>
+
+<TR><TD class=cellule-extralarge valign=middle>
+
+Numéro et rue<BR><input type=text name=adresse1 size=45><BR>
+code postal<BR><input type=text name=codepost size=5 maxlength=5><BR>
+
+
+</TD><TD class=cellule-extralarge valign=middle>
+
+Bâtiment, escalier, étage<BR><input type=text name=adresse2 size=45><BR>
+Ville<BR><input type=text name=ville size=45>
+Adresse email<BR><input type=text name=email size=25>
+&nbsp;&nbsp;T&eacute;l&eacute;phone <input type=text name=tel size=25>
+</TD><TD id=loginmdp class=cellule-extralarge valign=middle>
+
+Mot de passe<BR><input type=password name=passe size=15 maxlength=15 id="passe">longueur maxi=15 caractères
+<BR>
+Confirmer Mot de passe<BR><input type=password name=confirmpasse size=15 maxlength=15 onBlur='this.value!=document.getElementById("passe").value?alert("erreur confirmation!"):void(0);'>
+<BR>
+Pseudo<BR><input type=text name=pseudo size=45 id="pseudo">
+</TD>
+</TR>
+<TR><TD class=cellule-mince-epaisseur colspan=4 align=center>
+En ce qui concerne votre site Internet<font color=orange>*</font>: </TD></TR>
+<TR>
+
+<TD colspan=2 class=cellule-moyenne-epaisseur>Adresse de votre site internet:<BR>
+<input type=text name=site size=45 value="http://www."></TD>
+</TR>
+ 
+<TR> <td colspan=4 class=cellule-mince-epaisseur>Thèmes principaux de votre site :<BR>
+<textarea cols=50 rows=3 name=theme id="theme"> </textarea>&nbsp;&nbsp;<input type=button value="envoyer" onClick="verifSubmit()">
+</TD></TR>
+</table></form>
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-3992294-1");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+</body></html>

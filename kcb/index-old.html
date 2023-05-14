@@ -1,0 +1,355 @@
+<html><HEAD><TITLE>W-D-F</TITLE>
+<META NAME="Description" CONTENT="Location application envoi et gestion de campagnes marketing, création listes de mobiles (succès : 85%).">
+<META NAME="Keywords" CONTENT="campagne SMS, SMS prix cassés, gestion retour campagnes sur numero francais(06)">
+<META NAME="Robots" CONTENT="All">
+<style type="text/css">
+  .gsc-control-cse {
+    font-family: Times, serif;
+    border-color: #FFFFFF;
+    background-color: #FFFFFF;
+  }
+  input.gsc-input {
+    border-color: #777777;
+  }
+  input.gsc-search-button {
+    border-color: #333333;
+    background-color: #333333;
+  }
+  .gsc-tabHeader.gsc-tabhInactive {
+    border-color: #777777;
+    background-color: #777777;
+  }
+  .gsc-tabHeader.gsc-tabhActive {
+    border-color: #333333;
+    background-color: #333333;
+  }
+  .gsc-tabsArea {
+    border-color: #333333;
+  }
+  .gsc-webResult.gsc-result {
+    border-color: #FFFFFF;
+    background-color: #FFFFFF;
+  }
+  .gsc-webResult.gsc-result:hover {
+    border-color: #000000;
+    background-color: #FFFFFF;
+  }
+  .gs-webResult.gs-result a.gs-title:link,
+  .gs-webResult.gs-result a.gs-title:link b {
+    color: #444444;
+  }
+  .gs-webResult.gs-result a.gs-title:visited,
+  .gs-webResult.gs-result a.gs-title:visited b {
+    color: #444444;
+  }
+  .gs-webResult.gs-result a.gs-title:hover,
+  .gs-webResult.gs-result a.gs-title:hover b {
+    color: #444444;
+  }
+  .gs-webResult.gs-result a.gs-title:active,
+  .gs-webResult.gs-result a.gs-title:active b {
+    color: #777777;
+  }
+  .gsc-cursor-page {
+    color: #444444;
+  }
+  a.gsc-trailing-more-results:link {
+    color: #444444;
+  }
+  .gs-webResult .gs-snippet {
+    color: #333333;
+  }
+  .gs-webResult div.gs-visibleUrl {
+    color: #000000;
+  }
+  .gs-webResult div.gs-visibleUrl-short {
+    color: #000000;
+  }
+  .gs-webResult div.gs-visibleUrl-short {
+    display: none;
+  }
+  .gs-webResult div.gs-visibleUrl-long {
+    display: block;
+  }
+  .gsc-cursor-box {
+    border-color: #FFFFFF;
+  }
+  .gsc-results .gsc-cursor-box .gsc-cursor-page {
+    border-color: #777777;
+    background-color: #FFFFFF;
+    color: #444444;
+  }
+  .gsc-results .gsc-cursor-box .gsc-cursor-current-page {
+    border-color: #333333;
+    background-color: #333333;
+    color: #444444;
+  }
+  .gs-promotion {
+    border-color: #CCCCCC;
+    background-color: #E6E6E6;
+  }
+  .gs-promotion a.gs-title:link,
+  .gs-promotion a.gs-title:link *,
+  .gs-promotion .gs-snippet a:link {
+    color: #0000CC;
+  }
+  .gs-promotion a.gs-title:visited,
+  .gs-promotion a.gs-title:visited *,
+  .gs-promotion .gs-snippet a:visited {
+    color: #0000CC;
+  }
+  .gs-promotion a.gs-title:hover,
+  .gs-promotion a.gs-title:hover *,
+  .gs-promotion .gs-snippet a:hover {
+    color: #444444;
+  }
+  .gs-promotion a.gs-title:active,
+  .gs-promotion a.gs-title:active *,
+  .gs-promotion .gs-snippet a:active {
+    color: #00CC00;
+  }
+  .gs-promotion .gs-snippet,
+  .gs-promotion .gs-title .gs-promotion-title-right,
+  .gs-promotion .gs-title .gs-promotion-title-right *  {
+    color: #333333;
+  }
+  .gs-promotion .gs-visibleUrl,
+  .gs-promotion .gs-visibleUrl-short {
+    color: #00CC00;
+  }
+</style>
+<style>
+.popshadow {
+filter:shadow(blue,direction=100)
+}
+.mobiles{
+visibility:hidden;
+position:absolute;
+top:50px;
+left:300px;
+  } 
+</style>
+<script Language="Javascript">
+var cadre = new Object();
+var cadre2 = new Object();
+var sessionOn=false;
+var chaine="";
+var tonbou=new Object();
+var idclient=0;
+
+function connection(){
+
+
+var login=document.getElementById("b1");
+var mdp=document.getElementById("b2");
+//var login=b1.value;
+//var mdp=b2.value;
+var b4=document.getElementById("b4");
+var b3=document.getElementById("b3");
+var result="";
+document.all.polyval.src="./ventes-sms/connectionsms.html";
+if(sessionOn){
+		sessionOn=false; b4.disabled=true;b3.disabled=false;
+		deconnection();
+return;
+
+	} // if(sessionOn)
+else
+	{ 
+	sessionOn=true;
+	b4.disabled=false;
+/*
+for(i=0; i < window.frames.length; i++)
+alert("window.frames["+ i +"] = "+window.frames[i]);
+*/
+var arbre=window.frames[0].document.forms[0];
+//if (arbre) alert("arbre ok");
+//else return;
+arbre.pseudo.value=login.value;
+arbre.mdp.value=mdp.value;
+arbre.submit();
+
+	} // 	sessionOn=false;
+
+
+}// fin fonction
+
+
+//L 29
+
+function deconnection(){
+
+var arbre=window.frames[0].document;
+	
+	if (!arbre)
+ {alert("impossible solliciter fenetre interne");return;}
+
+//recuperation code session pour gerer session (terminer ici)
+	var codesession = arbre.getElementById('codesession');
+if(codesession){
+	arbre.write("<form id='deconnection' action='./php/deconnection.php?codesession="+codesession.value+"' method='get'></form>");
+	arbre.getElementById('deconnection').submit();
+		}
+	document.all.polyval.src="http://web.kiffecausebouge.com/connectionsms.html";
+}
+
+
+// L70
+
+
+function clignote(bouton){  //29
+
+
+var chainevide="voir ci-dessus";
+
+var panel=document.getElementById("menuboutons");
+	var element = panel.getElementsByTagName("*");;
+	for(i=0; i < element.length;i++)
+		if (element[i].type == "button") // Seulement les éléments DIV
+			element[i].disabled=false;					
+
+	bouton.disabled=true;
+	if(tonbou!=bouton)	{
+	tonbou.value=chaine;
+	tonbou=bouton;
+	chaine=bouton.value;	
+	bouton.value=chainevide;
+		}	
+
+} // fin fonction
+
+function downshadow(toto){
+toto.filters[0].enabled=false;
+}
+
+function afficheCadre(){
+var largeur=document.all?parseInt(document.body.clientWidth):parseInt(window.innerWidth);
+var hauteur=document.all?parseInt(document.body.clientHeight):parseInt(window.innerHeight);
+
+document.write("<div id='cadre' style='left:5;top:115;border:1.5px solid;position:absolute;background-color:cyan;width:222px;visibility:visible;color:purple;border-color:blue;font-Size:12'></div>");
+cadre=document.getElementById('cadre');
+
+document.write("<div id='cadre2' style='left:5;top:115;border:1.5px solid;visibility:hidden;position:absolute;background-color:white;width:222px;height:100px;color:purple;border-color:blue;font-Size:12'><div id='cse'></div></div>");
+cadre2=document.getElementById('cadre2');
+cadre2.innerHTML+="<center><a href=Javascript:void(0) onClick='reinitCadre()'>fermer</A></center>";
+affiche('sms');
+}
+
+
+function reinitCadre(){
+
+cadre.innerHTML="<p align=center><A title='inscription à gratuitannonces-online.com' target=_blank href='http://gratuitannonces-online.com/identite-profil.html'>inscription à GAOL pour acheter/vendre auto occasion</A></P>";
+cadre.innerHTML+="<p align=center><A target=_blank href='./webdiffusionfrance/statiques/pub-wengo.html'>Ma methode gratis loto solo</A><BR></P>";
+cadre.innerHTML+='<p><a href="http://www.sur-la-toile.com" target="_blank" title="Weblog sur l\'Actualité des sciences et de l\'informatique">Actualité, Science, Forum: 7 <b>sur-la-Toile!</b></a></P>';
+cadre.innerHTML+='<p>Terre sacr&eacute;e S.O.S Planete : <A target="_blank" HREF="http://simple-life.au12.info">simple life</A>';
+cadre2.style.visibility='hidden';
+cadre.style.visibility='visible';
+}
+
+
+function favoris(){
+window.external.addfavorite('http://web-diffusion-france.com','web-diffusion-france.com%20:le%20seul%20metier%20pour%20booster%20son%20image%20internet%20!');
+}
+
+function affiche(info){
+cadre.style.visibility='visible';
+
+//Laisser une trace de votre passage ou un commentaire(pas l\'actu ni de propos deplaces)<BR>
+
+switch(info){
+
+
+
+case 'sms':
+cadre.innerHTML="<center><B><U>Gestionnaire de campagne marketing par  SMS à 9.99cts l'un TTC illimit&eacute; tous op&eacute;rateurs au monde</U></B>,";
+cadre.innerHTML+=" <BR>G&eacute;n&eacute;ration al&eacute;atoire de numeros francais (parmi les 50 millions de consommateurs),";
+cadre.innerHTML+=" <BR>R&eacute;ception de votre r&eacute;ponse sur un num&eacute;ro fourni avec un mot clef personnalis&eacute;";
+cadre.innerHTML+=" <BR><center><a target=_blank href='./ventes-sms/inscription.html'><H3>inscription</H3></a></center>";
+cadre.innerHTML+=" <BR><center><a href=Javascript:void(0) onClick='reinitCadre()'>Fermer</A></center>";break;
+
+break;
+
+case 'annuaire':
+var portables=document.getElementById("portables");
+if(portables.style.visibility=="visible")portables.style.visibility="hidden";
+else portables.style.visibility="visible";
+break;
+
+case 'google':
+cadre.style.visibility='hidden';
+cadre2.style.visibility='visible';
+break;
+
+default : alert("probleme avec script");
+}
+}
+
+</script>
+<script Language="Javascript" src="./jscripts/texte-en-couleurs.js"></script>
+<script language="Javascript" src="./jscripts/ombrage.js"></script>
+</head>
+<body bgcolor="#FFA275">
+<div class="mobiles" id="portables"><div width=142 style="background-color:'cyan'"><input type=button value="X" onClick="affiche('annuaire')"></div>
+<div id='ctn-lannuaire.fr-736a2bebb41949962605d7a90396c5d30'>
+<a id='link-lannuaire.fr-736a2bebb41949962605d7a90396c5d30' href="http://www.lannuaire.fr/annuaire-mobile.php">Annuaire des Mobiles</a>
+<script type="text/javascript" src="http://applet.lannuaire.fr/show_applet.js?sid=lannuaire.fr-736a2bebb41949962605d7a90396c5d30"></script></div></div>
+
+<table style='font-Size:11; border:solid; border-color:cyan; border-width:2;' width=100% align=center>
+<tr  bgcolor='lightyellow'>
+
+ 
+
+ <TD onmouseover="this.style.background='cyan'"   onmouseout="this.style.background='lightyellow'" align=center>
+ <a  href='Javascript:void(0);' onClick="affiche('sms')">SMS &agrave; 9.99 cts HT illimites  tous op&eacute;rateurs.</A></TD>
+
+ <TD onmouseover="this.style.background='cyan'" onmouseout="this.style.background='lightyellow'" align=center>
+<a href="http://www.addandboost.com" title="Referencement Google">Referencement Google</a></TD>
+
+ <TD onmouseover="this.style.background='cyan'" onmouseout="this.style.background='lightyellow'" align=center>
+ <a  href='Javascript:void(0);' onClick="affiche('annuaire')">annuaire portables</A></TD>
+
+ <TD onmouseover="this.style.background='cyan'" onmouseout="this.style.background='lightyellow'" align=center>
+ <a  href='Javascript:void(0);' onClick="affiche('google')">moteur recherche</A>
+</TD>
+ <TD onmouseover="this.style.background='cyan'" onmouseout="this.style.background='lightyellow'" align=center>
+ <a  target=_blank href="contact.html"><img alt="Nous contacter" src="./contact.gif" width=80 height=30 border=0></A></TD>
+</TR></table>
+<table cols=6  border=0 height=20 style='font-Size:11;width:222' >
+<tr  bgcolor='lightyellow'>
+<TD align=center valign=middle>
+<marquee behavior="Alternate" scrolldelay="62" scrollamount="5"   width=190> 
+sms ,envoi sms,sms gratuit,sms mms gratuit,sms marketing,service sms,sms gratuits,monde sms,gratuit sms,chat sms,
+rencontre sms ,rencontres sms ,sms rencontre ,forfait sms ,sms gratos ,envois sms internet gratuitement,sms server ,
+bac sms ,sms message ,free sms ,envoi sms gratuit ,alertes sms ,sms spoofing ,free sms message ,spoofing sms ,
+sms mobile ,sms envoi ,envois sms ,cool sms ,send sms ,bouygues sms gratuit ,espion sms,free sms/mms text messages,
+sms humour ,message sms ,sms chat ,email to sms ,hindi sms ,horoscope sms ,sfr sms ,sms gratuis ,love sms ,sms gratuitement
+sms gratos via ,sms gratuits gsm ,sms mms ,international sms ,sms amour ,sms free  ,sms tunisie ,envoie sms,
+orange sms gratuit ,sms internet ,blague sms ,alerte sms ,communication sms ,mass sms ,sms flirt ,sms messaging,sms text
+send free sms ,telephonie sms ,sms orange ,sms via internet ,sms etranger, sms maroc ,sms promo ,sms sfr ,blagues sms,
+sms image ,sms service ,sms tunisie gratuit ,messages sms ,sms gratuit internet
+</marquee></TD>
+
+</TR></TABLE>
+
+
+
+
+
+
+<script language="Javascript">
+var largeur=document.all?parseInt(document.body.clientWidth):parseInt(window.innerWidth);
+var hauteur=document.all?parseInt(document.body.clientHeight):parseInt(window.innerHeight);
+document.write("<div  style='position:absolute; top:115;left:247'><iframe name=polyval scrolling=yes border=yes src='./ventes-sms/connectionsms.html' width="+((largeur/2)+(largeur/4)) +" height="+(hauteur/2)+"></iframe>");
+</script>
+<P><div id="menuboutons" align=right><table border=0><TR>
+<TD><input name='*' id='b1' type=text size=15>Pseudo<BR><input name='*' id='b2' type="password" size=15>Mot de passe</TD>
+<TD><input  id='b3' type=button value='Connection Campagne' onclick='clignote(this);connection();'></TD>
+<TD><input  id='b4' type=button value='Déconnection' onClick='connection()' disabled></TD>
+<TD><input name='*' id='b5' type=button value='Achats SMS' onClick='document.all.polyval.src="./ventes-sms/paiements.html"'></TD>
+<TD><input name='*' id='b6' type=button value='Terre sacrée' onclick='clignote(this);document.all.polyval.src="http://simple-life.au12.info"'></TD>
+<TD><input name='*' id='b7' type=button value='Contact' onclick='clignote(this);document.all.polyval.src="./ventes-sms/contact.html"'></TD>
+</TR></table></div></div></P>
+<script Language="Javascript">
+afficheCadre();
+</script>
+</body></html>

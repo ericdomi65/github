@@ -1,0 +1,670 @@
+-- phpMyAdmin SQL Dump
+-- version 5.1.1
+-- https://www.phpmyadmin.net/
+--
+-- Hôte : 127.0.0.1:3306
+-- Généré le : dim. 14 mai 2023 à 18:21
+-- Version du serveur : 10.5.19-MariaDB-cll-lve
+-- Version de PHP : 7.2.34
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Base de données : `u259919981_wdf`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `abonnement`
+--
+
+CREATE TABLE `abonnement` (
+  `clef` bigint(10) UNSIGNED NOT NULL,
+  `idclient` bigint(13) UNSIGNED NOT NULL,
+  `date_abo` datetime NOT NULL,
+  `duree` smallint(2) NOT NULL,
+  `renouv` tinyint(1) NOT NULL,
+  `motclef` varchar(15) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT 'jyv',
+  `promo-code` varchar(20) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `abo_avance`
+--
+
+CREATE TABLE `abo_avance` (
+  `clef` int(5) UNSIGNED NOT NULL,
+  `idclient` bigint(13) UNSIGNED NOT NULL,
+  `motclef` varchar(10) NOT NULL,
+  `date_abo` date NOT NULL,
+  `duree` smallint(2) UNSIGNED ZEROFILL NOT NULL,
+  `renouv` tinyint(1) NOT NULL,
+  `dispo` tinyint(1) NOT NULL COMMENT 'abo sucptbl d''etre suspendu'
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci COMMENT='tout abont suspendu libere le mot clef correspt';
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `campagne`
+--
+
+CREATE TABLE `campagne` (
+  `clef` int(8) UNSIGNED NOT NULL,
+  `idclient` bigint(13) UNSIGNED NOT NULL,
+  `nom_campagne` varchar(50) NOT NULL,
+  `date_creation` date NOT NULL,
+  `date_envoi` datetime NOT NULL DEFAULT current_timestamp(),
+  `message` text NOT NULL,
+  `fichier` varchar(50) DEFAULT NULL,
+  `ref_liste` int(5) UNSIGNED NOT NULL COMMENT 'liste aleatoire de mob ',
+  `rows_inclus` mediumtext DEFAULT NULL COMMENT 'suite de nommbres correspondant au rang de classement du prospect a toucher',
+  `nb-edition` mediumint(3) UNSIGNED DEFAULT NULL,
+  `mobile` tinyint(2) UNSIGNED DEFAULT NULL COMMENT 'quel champs correspond au mobile',
+  `nom` tinyint(2) UNSIGNED DEFAULT NULL,
+  `prenom` tinyint(2) UNSIGNED DEFAULT NULL,
+  `pseudonyme` tinyint(2) UNSIGNED DEFAULT NULL,
+  `password` tinyint(2) UNSIGNED DEFAULT NULL,
+  `adresse1` tinyint(2) UNSIGNED DEFAULT NULL,
+  `adresse2` tinyint(2) UNSIGNED DEFAULT NULL,
+  `postal` tinyint(2) UNSIGNED DEFAULT NULL,
+  `ville` tinyint(2) UNSIGNED DEFAULT NULL,
+  `email` tinyint(2) UNSIGNED DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='nom des champs pour correspondance avec fichier clients';
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `email`
+--
+
+CREATE TABLE `email` (
+  `clef` int(5) UNSIGNED NOT NULL,
+  `session_id` bigint(10) UNSIGNED NOT NULL,
+  `email` varchar(50) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `factures`
+--
+
+CREATE TABLE `factures` (
+  `clef` bigint(10) UNSIGNED NOT NULL,
+  `datefacture` date NOT NULL,
+  `objet` varchar(20) NOT NULL,
+  `montant` decimal(5,2) UNSIGNED NOT NULL,
+  `numtransac` varchar(17) NOT NULL,
+  `idclient` bigint(13) UNSIGNED NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='enregis les données reçues telles qu''elles';
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `histocamp`
+--
+
+CREATE TABLE `histocamp` (
+  `clef` int(8) UNSIGNED NOT NULL,
+  `idclient` bigint(13) UNSIGNED NOT NULL,
+  `nom_campagne` varchar(100) NOT NULL,
+  `ref_liste` int(5) DEFAULT 0,
+  `date_campagne` datetime NOT NULL,
+  `motclef` varchar(15) DEFAULT NULL,
+  `nbmobiles` int(8) UNSIGNED NOT NULL,
+  `nbsms` int(4) UNSIGNED NOT NULL,
+  `EXPIRED` int(8) UNSIGNED NOT NULL COMMENT 'mess. expiré avant delivrance',
+  `FAILED` int(8) UNSIGNED NOT NULL COMMENT 'Erreur : message ou numéro invalide',
+  `UNKNOWN` int(8) UNSIGNED NOT NULL COMMENT 'Erreur inconnue',
+  `QUEUED` int(8) UNSIGNED NOT NULL COMMENT 'message mis en queue:attendre delivrance'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `historique`
+--
+
+CREATE TABLE `historique` (
+  `identite` bigint(10) NOT NULL DEFAULT 0,
+  `date_jeu` date NOT NULL DEFAULT '0000-00-00',
+  `num_jeu` tinyint(2) NOT NULL DEFAULT 0,
+  `jeu_num` enum('jeux_8','jeux_9','jeux_10','jeux_11','jeux_12','jeux_13','jeux_14','jeux_15','jeux_16','jeux_17') NOT NULL DEFAULT 'jeux_8',
+  `mise` mediumint(5) NOT NULL DEFAULT 0,
+  `misepayee` enum('false','true') NOT NULL DEFAULT 'false',
+  `gain` bigint(10) NOT NULL DEFAULT 0,
+  `gainpaye` enum('false','true') NOT NULL DEFAULT 'false'
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci COMMENT='histo des mises et des gains';
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `identite`
+--
+
+CREATE TABLE `identite` (
+  `clef` bigint(10) UNSIGNED NOT NULL,
+  `identite` bigint(13) UNSIGNED NOT NULL DEFAULT 0,
+  `inscription` date NOT NULL DEFAULT '0000-00-00',
+  `civilite` enum('Monsieur','Madame','Mlle') NOT NULL DEFAULT 'Monsieur',
+  `nom` varchar(30) NOT NULL DEFAULT '',
+  `prenom` varchar(30) NOT NULL DEFAULT '',
+  `organisation` enum('particulier','association','entreprise','administration') NOT NULL DEFAULT 'particulier',
+  `adresse1` varchar(35) NOT NULL DEFAULT '',
+  `adresse2` varchar(35) NOT NULL DEFAULT '',
+  `ville` varchar(30) NOT NULL DEFAULT '',
+  `codepostal` smallint(5) UNSIGNED NOT NULL DEFAULT 0,
+  `telephone` bigint(10) UNSIGNED NOT NULL,
+  `passe` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `email` varchar(35) NOT NULL DEFAULT '',
+  `pseudo` varchar(25) NOT NULL DEFAULT '',
+  `siteinternet` varchar(40) DEFAULT NULL,
+  `theme` mediumtext DEFAULT NULL,
+  `okemail` enum('false','true') NOT NULL DEFAULT 'false'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `keywords`
+--
+
+CREATE TABLE `keywords` (
+  `clef` int(5) UNSIGNED NOT NULL,
+  `keyword` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'jyv',
+  `dispo` tinyint(1) NOT NULL COMMENT 'pris ou pas'
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci COMMENT='les keyword rapport au listener perso';
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `mesg_prosp`
+--
+
+CREATE TABLE `mesg_prosp` (
+  `clef` bigint(10) UNSIGNED NOT NULL,
+  `idclient` bigint(10) UNSIGNED NOT NULL,
+  `date_msg` datetime NOT NULL,
+  `mobile` bigint(10) UNSIGNED NOT NULL,
+  `motclef` varchar(10) NOT NULL DEFAULT 'jyv',
+  `message` varchar(160) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'pas de message' COMMENT 'message retour prospects'
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci COMMENT='message retour des prospects';
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `mobiles`
+--
+
+CREATE TABLE `mobiles` (
+  `clef` bigint(10) UNSIGNED NOT NULL,
+  `mobile` int(5) NOT NULL DEFAULT 0,
+  `compteur` mediumint(8) UNSIGNED DEFAULT 0,
+  `opt_in` tinyint(1) UNSIGNED DEFAULT 1
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `mobile_random`
+--
+
+CREATE TABLE `mobile_random` (
+  `clef` bigint(10) UNSIGNED NOT NULL,
+  `idclient` bigint(13) UNSIGNED NOT NULL,
+  `ref_liste` int(5) UNSIGNED NOT NULL DEFAULT 0,
+  `libelle` varchar(30) NOT NULL,
+  `mobile` int(9) UNSIGNED NOT NULL,
+  `invalide` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci COMMENT='generations aleatoires de mobile';
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `mots-de-passe`
+--
+
+CREATE TABLE `mots-de-passe` (
+  `clef` int(11) NOT NULL,
+  `mdp` varchar(30) NOT NULL,
+  `commentaire` varchar(50) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci COMMENT='mes mots de passe';
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `nip_tdp`
+--
+
+CREATE TABLE `nip_tdp` (
+  `id` bigint(10) NOT NULL,
+  `idclient` bigint(13) UNSIGNED NOT NULL,
+  `email` varchar(45) NOT NULL,
+  `numtransac` varchar(20) NOT NULL,
+  `monnaie` varchar(10) NOT NULL,
+  `nbobjets` int(5) UNSIGNED NOT NULL,
+  `montant` float UNSIGNED NOT NULL,
+  `paiement` tinyint(1) NOT NULL,
+  `statut_adresse` tinyint(1) NOT NULL,
+  `cli_paypal_cpt` tinyint(1) NOT NULL,
+  `bankcptrouge` tinyint(1) NOT NULL,
+  `memo` longtext NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `optout`
+--
+
+CREATE TABLE `optout` (
+  `clef` mediumint(8) UNSIGNED NOT NULL,
+  `nom` varchar(30) NOT NULL,
+  `mobile` int(10) UNSIGNED NOT NULL,
+  `reponse` varchar(250) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `parametres`
+--
+
+CREATE TABLE `parametres` (
+  `clef` int(5) UNSIGNED NOT NULL,
+  `command_id` varchar(20) NOT NULL,
+  `param_1` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `param_2` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `param_3` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `param_4` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `param_5` varchar(25) CHARACTER SET ascii COLLATE ascii_general_ci NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci COMMENT='params relatif a une commande datée';
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `prefixes_mobiles`
+--
+
+CREATE TABLE `prefixes_mobiles` (
+  `clef` int(3) UNSIGNED NOT NULL,
+  `prefixe` mediumint(3) UNSIGNED NOT NULL,
+  `pays` varchar(25) NOT NULL,
+  `iso3316` varchar(3) NOT NULL,
+  `prime` float UNSIGNED NOT NULL,
+  `lite` float UNSIGNED NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci COMMENT='table des prefixes tel_ques et des tarifs ';
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `profil`
+--
+
+CREATE TABLE `profil` (
+  `clef` int(8) UNSIGNED NOT NULL,
+  `mobile` bigint(9) UNSIGNED NOT NULL DEFAULT 0,
+  `mdp` varchar(20) NOT NULL DEFAULT '' COMMENT 'mot de passe',
+  `civilite` varchar(20) NOT NULL DEFAULT '',
+  `age` smallint(2) NOT NULL DEFAULT 0,
+  `profession` varchar(40) NOT NULL DEFAULT '',
+  `email` varchar(40) NOT NULL DEFAULT '',
+  `nom` varchar(20) NOT NULL DEFAULT '',
+  `prenom` varchar(20) NOT NULL DEFAULT '',
+  `ville` varchar(20) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci COMMENT='le mobile est la clef etrangere';
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `reponses`
+--
+
+CREATE TABLE `reponses` (
+  `clef` mediumint(8) UNSIGNED NOT NULL,
+  `id_client` int(8) UNSIGNED NOT NULL COMMENT 'voir table client_qi',
+  `id_session` int(8) UNSIGNED NOT NULL COMMENT 'voir table session_qi',
+  `num_question` mediumint(5) UNSIGNED NOT NULL,
+  `reponse` mediumint(3) UNSIGNED NOT NULL,
+  `erreur` tinyint(1) UNSIGNED NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `session`
+--
+
+CREATE TABLE `session` (
+  `clef` bigint(10) UNSIGNED NOT NULL,
+  `idclient` bigint(13) UNSIGNED DEFAULT NULL,
+  `codesession` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
+  `datedebut` date DEFAULT NULL,
+  `heuredebut` time DEFAULT NULL,
+  `datefin` date DEFAULT NULL,
+  `heurefin` time DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `statuts`
+--
+
+CREATE TABLE `statuts` (
+  `id` bigint(10) NOT NULL,
+  `tel` bigint(10) UNSIGNED NOT NULL COMMENT 'destinataire',
+  `statut` longtext NOT NULL,
+  `reponse` varchar(100) NOT NULL,
+  `message` varchar(170) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `utilisateurs`
+--
+
+CREATE TABLE `utilisateurs` (
+  `clef` bigint(10) UNSIGNED NOT NULL,
+  `idclient` bigint(13) UNSIGNED NOT NULL COMMENT 'idem table identite',
+  `credits` int(5) UNSIGNED NOT NULL,
+  `debits` int(5) UNSIGNED NOT NULL,
+  `litige` enum('true','false') NOT NULL COMMENT 'si il y a un litige'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Index pour les tables déchargées
+--
+
+--
+-- Index pour la table `abonnement`
+--
+ALTER TABLE `abonnement`
+  ADD PRIMARY KEY (`clef`),
+  ADD KEY `idclient` (`idclient`);
+
+--
+-- Index pour la table `abo_avance`
+--
+ALTER TABLE `abo_avance`
+  ADD PRIMARY KEY (`clef`),
+  ADD KEY `idclient` (`idclient`);
+
+--
+-- Index pour la table `campagne`
+--
+ALTER TABLE `campagne`
+  ADD PRIMARY KEY (`clef`),
+  ADD KEY `idclient` (`idclient`);
+
+--
+-- Index pour la table `email`
+--
+ALTER TABLE `email`
+  ADD PRIMARY KEY (`clef`);
+
+--
+-- Index pour la table `factures`
+--
+ALTER TABLE `factures`
+  ADD PRIMARY KEY (`clef`),
+  ADD KEY `idclient` (`idclient`);
+
+--
+-- Index pour la table `histocamp`
+--
+ALTER TABLE `histocamp`
+  ADD PRIMARY KEY (`clef`),
+  ADD KEY `idclient` (`idclient`);
+
+--
+-- Index pour la table `historique`
+--
+ALTER TABLE `historique`
+  ADD PRIMARY KEY (`identite`,`date_jeu`,`num_jeu`,`jeu_num`);
+
+--
+-- Index pour la table `identite`
+--
+ALTER TABLE `identite`
+  ADD PRIMARY KEY (`clef`);
+
+--
+-- Index pour la table `keywords`
+--
+ALTER TABLE `keywords`
+  ADD PRIMARY KEY (`clef`);
+
+--
+-- Index pour la table `mesg_prosp`
+--
+ALTER TABLE `mesg_prosp`
+  ADD PRIMARY KEY (`clef`),
+  ADD KEY `idclient` (`idclient`);
+
+--
+-- Index pour la table `mobiles`
+--
+ALTER TABLE `mobiles`
+  ADD PRIMARY KEY (`clef`);
+
+--
+-- Index pour la table `mobile_random`
+--
+ALTER TABLE `mobile_random`
+  ADD PRIMARY KEY (`clef`),
+  ADD KEY `idclient` (`idclient`),
+  ADD KEY `ref_liste` (`ref_liste`);
+
+--
+-- Index pour la table `mots-de-passe`
+--
+ALTER TABLE `mots-de-passe`
+  ADD PRIMARY KEY (`clef`);
+
+--
+-- Index pour la table `nip_tdp`
+--
+ALTER TABLE `nip_tdp`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`),
+  ADD KEY `idclient` (`idclient`);
+
+--
+-- Index pour la table `optout`
+--
+ALTER TABLE `optout`
+  ADD PRIMARY KEY (`clef`);
+
+--
+-- Index pour la table `parametres`
+--
+ALTER TABLE `parametres`
+  ADD PRIMARY KEY (`clef`);
+
+--
+-- Index pour la table `prefixes_mobiles`
+--
+ALTER TABLE `prefixes_mobiles`
+  ADD PRIMARY KEY (`clef`);
+
+--
+-- Index pour la table `profil`
+--
+ALTER TABLE `profil`
+  ADD PRIMARY KEY (`clef`);
+
+--
+-- Index pour la table `reponses`
+--
+ALTER TABLE `reponses`
+  ADD PRIMARY KEY (`clef`),
+  ADD KEY `id_client` (`id_client`,`id_session`);
+
+--
+-- Index pour la table `session`
+--
+ALTER TABLE `session`
+  ADD PRIMARY KEY (`clef`),
+  ADD KEY `clef` (`codesession`);
+
+--
+-- Index pour la table `statuts`
+--
+ALTER TABLE `statuts`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `tel` (`tel`);
+
+--
+-- Index pour la table `utilisateurs`
+--
+ALTER TABLE `utilisateurs`
+  ADD PRIMARY KEY (`clef`),
+  ADD KEY `idclient` (`idclient`);
+
+--
+-- AUTO_INCREMENT pour les tables déchargées
+--
+
+--
+-- AUTO_INCREMENT pour la table `abonnement`
+--
+ALTER TABLE `abonnement`
+  MODIFY `clef` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `abo_avance`
+--
+ALTER TABLE `abo_avance`
+  MODIFY `clef` int(5) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `campagne`
+--
+ALTER TABLE `campagne`
+  MODIFY `clef` int(8) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `email`
+--
+ALTER TABLE `email`
+  MODIFY `clef` int(5) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `factures`
+--
+ALTER TABLE `factures`
+  MODIFY `clef` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `histocamp`
+--
+ALTER TABLE `histocamp`
+  MODIFY `clef` int(8) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `identite`
+--
+ALTER TABLE `identite`
+  MODIFY `clef` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `keywords`
+--
+ALTER TABLE `keywords`
+  MODIFY `clef` int(5) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `mesg_prosp`
+--
+ALTER TABLE `mesg_prosp`
+  MODIFY `clef` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `mobiles`
+--
+ALTER TABLE `mobiles`
+  MODIFY `clef` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `mobile_random`
+--
+ALTER TABLE `mobile_random`
+  MODIFY `clef` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `mots-de-passe`
+--
+ALTER TABLE `mots-de-passe`
+  MODIFY `clef` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `nip_tdp`
+--
+ALTER TABLE `nip_tdp`
+  MODIFY `id` bigint(10) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `optout`
+--
+ALTER TABLE `optout`
+  MODIFY `clef` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `parametres`
+--
+ALTER TABLE `parametres`
+  MODIFY `clef` int(5) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `prefixes_mobiles`
+--
+ALTER TABLE `prefixes_mobiles`
+  MODIFY `clef` int(3) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `profil`
+--
+ALTER TABLE `profil`
+  MODIFY `clef` int(8) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `reponses`
+--
+ALTER TABLE `reponses`
+  MODIFY `clef` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `session`
+--
+ALTER TABLE `session`
+  MODIFY `clef` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `statuts`
+--
+ALTER TABLE `statuts`
+  MODIFY `id` bigint(10) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `utilisateurs`
+--
+ALTER TABLE `utilisateurs`
+  MODIFY `clef` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
